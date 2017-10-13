@@ -6,7 +6,7 @@ import java.util.Iterator;
  * @author Peter Kurfer
  * Created on 10/6/17.
  */
-public class SimpleListImpl implements SimpleList {
+public class SimpleListImpl implements SimpleList, Iterable<Object> {
     Element head = null;
 
     private static class Element {
@@ -26,7 +26,7 @@ public class SimpleListImpl implements SimpleList {
         }
     }
 
-    private class MyIterator implements Iterator<Element> {
+    private class MyIterator implements Iterator<Object> {
         Element cursor = head;
 
         @Override
@@ -36,11 +36,14 @@ public class SimpleListImpl implements SimpleList {
 
         @Override
         public Element next() {
-            if (this.hasNext()) {
-                Element current = cursor;
-                cursor = cursor.getNext();
-                return current;
-            }
+            Element current = cursor;
+            cursor = cursor.getNext();
+            return current;
         }
+    }
+
+    @Override
+    public Iterator<Object> iterator() {
+        return new MyIterator();
     }
 }
